@@ -26,11 +26,11 @@
 %%%_* Exports ==========================================================
 -export([ delete/5
         , get/5
-	, get_bucket/3
+        , get_bucket/3
         , get_index/5
         , get_index/6
         , put/4
-	, set_bucket/4
+        , set_bucket/4
         , start_link/3
         ]).
 
@@ -60,8 +60,8 @@ get(Pid, Bucket, Key, Options, Timeout) ->
 get_bucket(Pid, Bucket, Timeout) ->
   case
     riakc_pb_socket:get_bucket(Pid,
-			       krc_obj:encode(Bucket),
-			       Timeout) of
+                   krc_obj:encode(Bucket),
+                   Timeout) of
     {ok, Props}      -> {ok, krc_bucket_properties:decode(Props)};
     {error, _} = Err -> Err
   end.
@@ -107,9 +107,9 @@ put(Pid, Obj, Options, Timeout) ->
 set_bucket(Pid, Bucket, Props, Timeout) ->
   case
     riakc_pb_socket:set_bucket(Pid,
-			       krc_obj:encode(Bucket),
-			       Props,
-			       Timeout) of
+                   krc_obj:encode(Bucket),
+                   Props,
+                   Timeout) of
     ok               -> ok;
     {error, _} = Err -> Err
   end.
