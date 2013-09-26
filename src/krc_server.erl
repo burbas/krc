@@ -80,11 +80,11 @@
 %% Riak API
 -export([ delete/3
         , get/3
-	, get_bucket/2
+        , get_bucket/2
         , get_index/4
         , get_index/5
         , put/2
-	, set_bucket/3
+        , set_bucket/3
         ]).
 
 %% gen_server callbacks
