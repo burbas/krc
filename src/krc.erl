@@ -28,13 +28,14 @@
 -export([ delete/3
         , get/3
         , get/4
-	, get_bucket/2
+        , get_bucket/2
         , get_index/4
         , get_index/5
         , get_index_keys/4
+        , get_index_keys/5
         , put/2
         , put_index/3
-	, set_bucket/3
+        , set_bucket/3
         ]).
 
 %% Args
@@ -50,13 +51,13 @@
 %%%_ * Types -----------------------------------------------------------
 -type server()       :: atom() | pid().
 -type strategy()     :: module() %policy
-		      | krc_resolver:resolution_procedure().
+                      | krc_resolver:resolution_procedure().
 
 -type bucket()       :: krc_obj:bucket().
 -type key()          :: krc_obj:key().
 -type idx()          :: krc_obj:idx().
 -type idx_key()      :: {match, _}
-		      | {range, integer(), integer()}.
+                      | {range, integer(), integer()}.
 -type obj()          :: krc_obj:ect().
 -type bucket_props() :: [{Key :: atom(), Val :: any()}].
 
@@ -117,9 +118,12 @@ get_index(S, B, I, K, Strat) ->
                         maybe([key()], _).
 %% @doc Get all keys tagged with I in bucket B.
 get_index_keys(S, B, I, K) ->
+    get_index_keys(S, B, I, K, ?CALL_TIMEOUT).
+
+get_index_keys(S, B, I, K, T) ->
   case K of
-    {match, X}    -> krc_server:get_index(S, B, I, X);
-    {range, X, Y} -> krc_server:get_index(S, B, I, X, Y)
+    {match, X}    -> krc_server:get_index(S, B, I, X, T);
+    {range, X, Y} -> krc_server:get_index(S, B, I, X, Y, T)
   end.
 
 
