@@ -125,16 +125,16 @@
         }).
 
 %%%_ * API -------------------------------------------------------------
-delete(GS, B, K)                    -> call(GS, {delete,     [B, K]   }).
-get(GS, B, K)                       -> call(GS, {get,        [B, K]   }).
-get_bucket(GS, B)                   -> call(GS, {get_bucket, [B]      }).
-get_index(GS, B, I, K)              -> call(GS, {get_index,  [B, I, K]}).
+delete(GS, B, K)              -> call(GS, {delete,     [B, K]   }).
+get(GS, B, K)                 -> call(GS, {get,        [B, K]   }).
+get_bucket(GS, B)             -> call(GS, {get_bucket, [B]      }).
+get_index(GS, B, I, K)        -> call(GS, {get_index,  [B, I, K]}).
 get_index(GS, B, I, K, T)
-                 when is_integer(T) -> call(GS, {get_index,  [B, I, K], T});
-get_index(GS, B, I, L, U)           -> call(GS, {get_index,  [B, I, L, U]}).
-get_index(GS, B, I, L, U, T)        -> call(GS, {get_index,  [B, I, L, U], T}).
-put(GS, O)                          -> call(GS, {put,        [O]      }).
-set_bucket(GS, B, P)                -> call(GS, {set_bucket, [B, P]}).
+           when is_integer(T) -> call(GS, {get_index,  [B, I, K], T}, T);
+get_index(GS, B, I, L, U)     -> call(GS, {get_index,  [B, I, L, U]}).
+get_index(GS, B, I, L, U, T)  -> call(GS, {get_index,  [B, I, L, U], T}, T).
+put(GS, O)                    -> call(GS, {put,        [O]      }).
+set_bucket(GS, B, P)          -> call(GS, {set_bucket, [B, P]}).
 
 start(A)            -> gen_server:start(?MODULE, A, []).
 start(Name, A)      -> gen_server:start({local, Name}, ?MODULE, A, []).
@@ -142,7 +142,8 @@ start_link(A)       -> gen_server:start_link(?MODULE, A, []).
 start_link(Name, A) -> gen_server:start_link({local, Name}, ?MODULE, A, []).
 stop(GS)            -> gen_server:call(GS, stop).
 
-call(GS, Req) -> gen_server:call(GS, {s2_time:stamp(), Req}, ?TIMEOUT).
+call(GS, Req)    -> gen_server:call(GS, {s2_time:stamp(), Req}, ?TIMEOUT).
+call(GS, Req, T) -> gen_server:call(GS, {s2_time:stamp(), Req}, T).
 
 %%%_ * gen_server callbacks --------------------------------------------
 init(Args) ->
